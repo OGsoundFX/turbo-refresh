@@ -6,6 +6,17 @@ class PagesController < ApplicationController
 
   def upvote
     current_user.increment!(:counter)
-    redirect_to root_path
+    render_counter
+  end
+
+  private
+
+  def render_counter
+    render turbo_stream:
+      turbo_stream.replace(
+        "counter",
+        partial: "pages/counter",
+        locals: { counter: current_user.counter }
+      )
   end
 end
