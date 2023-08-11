@@ -40,7 +40,33 @@ add_column :users, :counter, :integer, default: 0
   ```
 - partial: _counter.html.erb
   ```
-  <h1>Upvotes: <%= counter %></h1>
+    <h1>Upvotes: <%= counter %></h1>
   ```
 
+## 4- Implement the counter incrementation WITH TURBO STREAM
+#### Modify the 2 following existing files
 
+- pages_controller.rb:
+  ```
+    def upvote
+    current_user.increment!(:counter)
+    render_counter
+  end
+
+  private
+
+  def render_counter
+    render turbo_stream:
+      turbo_stream.replace(
+        "counter",
+        partial: "pages/counter",
+        locals: { counter: current_user.counter }
+      )
+  end
+  ```
+- partial: _counter.html.erb
+  ```
+  <%= turbo_frame_tag "counter" do %>
+    <h1>Upvotes: <%= counter %></h1>
+  <% end %>
+  ```
