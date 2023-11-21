@@ -48,7 +48,7 @@ add_column :users, :counter, :integer, default: 0
 
 - pages_controller.rb:
   ```
-    def upvote
+  def upvote
     current_user.increment!(:counter)
     render_counter
   end
