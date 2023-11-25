@@ -3,7 +3,7 @@
 
 ## 1- Generate a Rails app with Devise
 App generated with [lewagon/rails-templates](https://github.com/lewagon/rails-templates), created by the [Le Wagon coding bootcamp](https://www.lewagon.com) team.
-```
+```bash
 rails new \
   -d postgresql \
   -m https://raw.githubusercontent.com/lewagon/rails-templates/master/devise.rb \
@@ -12,34 +12,34 @@ rails new \
 
 ## 2- Add a counter columnto the User table
 - Generate file
-```
+```bash
 rails generate migration add_counter_to_users counter:integer
 ```
 - Set default value of counter to 0
-```
+```ruby
 add_column :users, :counter, :integer, default: 0
 ```
 - ```rails db:migrate```
 
 ## 3- Implement the whole counter incrementation process (without turbo stream)
 - routes.rb:
-  ```
+  ```ruby
   get "upvote", to: "pages#upvote"
   ```
 - pages_controller.rb:
-  ```
+  ```ruby
    def upvote
     current_user.increment!(:counter)
     redirect_to root_path
   end
   ```
 - home.html.erb
-  ```
+  ```erb
   <%= link_to "Upvote", upvote_path, class: "btn btn-primary" %>
   <%= render "pages/counter", counter: current_user.counter %>
   ```
 - partial: _counter.html.erb
-  ```
+  ```erb
     <h1>Upvotes: <%= counter %></h1>
   ```
 
@@ -47,7 +47,7 @@ add_column :users, :counter, :integer, default: 0
 #### Modify the 2 following existing files
 
 - pages_controller.rb:
-  ```
+  ```ruby
   def upvote
     current_user.increment!(:counter)
     render_counter
@@ -65,7 +65,7 @@ add_column :users, :counter, :integer, default: 0
   end
   ```
 - partial: _counter.html.erb
-  ```
+  ```erb
   <%= turbo_frame_tag "counter" do %>
     <h1>Upvotes: <%= counter %></h1>
   <% end %>
